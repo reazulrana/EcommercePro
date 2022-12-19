@@ -1,0 +1,18 @@
+<?php
+namespace App\Lib;
+use App\Models\Category;
+
+class mycategory
+{
+    public function delete($id)
+    {
+
+        // $cat=Category::find($id);
+        // $cat->delete();
+        // return redirect()->back()->with([""=>""]);
+        return $id;
+
+    }
+}
+
+

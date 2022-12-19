@@ -1,0 +1,14 @@
+.btn-success{
+    background-color: #6fd96f !important;
+    color: white !important;
+}
+
+.btn-primary{
+    background-color: #759bff !important;
+    color: white !important;
+}
+
+
+.form-control{
+    min-height: 30px !important;
+}
