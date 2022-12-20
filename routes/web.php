@@ -81,8 +81,10 @@ Route::post('/reply_comment',[HomeController::class,"reply_comment"])->name('rep
 
 Route::get('/show_comment',[AdminController::class,"show_comment"])->name('show_comment');
 Route::get('/shwo_reply_on_comment',[AdminController::class,"shwo_reply_on_comment"])->name('shwo_reply_on_comment');
-Route::get('/delete_comment',[AdminController::class,"delete_comment"])->name('delete_comment');
-Route::Post('/Update_Comment',[AdminController::class,"Update_Comment"])->name('Update_Comment');
+Route::Post('/delete_comment',[AdminController::class,"delete_comment"])->name('delete_comment');
+Route::Post('/update_comment',[AdminController::class,"update_comment"])->name('update_comment');
+Route::Post('/update_reply',[AdminController::class,"update_reply"])->name('update_reply');
+Route::Post('/delete_reply',[AdminController::class,"delete_reply"])->name('delete_reply');
 
 
 

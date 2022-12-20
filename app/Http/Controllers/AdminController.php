@@ -288,7 +288,12 @@ function show_comment()
 
 function shwo_reply_on_comment()
 {
-    return "Reply On Comments";
+    // $replies=Reply::with("users")->get();
+    // $replies_comment=Reply::with("comments")->get();
+    $replies=DB::select(DB::raw("Select users.name, users.email,comments.comment as comments,replies.id,replies.comment  from Users inner
+    join comments on users.id=comments.user_id inner join replies on comments.id=replies.comment_id"));
+
+    return view("admin.show_reply",["replies"=>$replies]);
 
 }
 
@@ -322,7 +327,7 @@ function delete_comment(Request $req)
 
 }
 
-function Update_Comment(Request $req)
+function update_comment(Request $req)
 {
 
 $comment_id=$req->comment_id;
@@ -331,6 +336,39 @@ $comment->comment=$req->edit_comment;
 $comment->save();
 
 return redirect()->back()->with(["msg"=>"Comment Update Successfully","type"=>"success"]);
+
+}
+
+function update_reply(Request $req)
+{
+
+    $id=$req->reply_id;
+    $reply=Reply::find($id);
+
+    if(isset($reply))
+    {
+        $reply->comment= $req->edit_reply;
+        $reply->save();
+    }
+
+
+    return redirect()->back()->with(["msg"=>"Reply Update Successfully","type"=>"success"]);
+}
+
+
+function delete_reply(Request $req)
+{
+
+    try{
+    $id=$req->reply_id;
+    $reply=Reply::find($id);
+    $reply->delete();
+    return redirect()->back()->with(["msg"=> "Reply Deleted Successfully","type"=>"success"]);
+}
+catch(\Exception $e)
+{
+    throw $e;
+}
 
 }
 

@@ -50,13 +50,13 @@
     <div class="col-md-4">
         <form action="{{Route('reply_comment')}}" method="POST" class="form-inline">
         @csrf
-        <input type="text" name="commentid" class="form-control commentid" />
-        <textarea cols="25" rows="3" class="form-control" name="reply_on_comment"></textarea>
+<div class="form-group">
+        <input type="hidden" name="commentid" class="form-control commentid" />
+        <textarea cols="25" rows="3" class="form-control col-md-12" name="reply_on_comment"></textarea>
         <button type="submit" class="btn btn-primary btn-sm">Reply</button>
-</form>
-
-        <button type="submit" class="btn btn-danger btn-sm btn_close">Close</button>
-
+        <a type="submit" class="btn btn-danger btn-sm btn_close">Close</a>
+    </div>
+    </form>
     </div>
 </div>
 </div>
