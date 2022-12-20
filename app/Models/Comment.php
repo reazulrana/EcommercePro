@@ -21,6 +21,10 @@ class Comment extends Model
     {
         return $this->hasMany(Reply::class);
     }
+    public function users()
+    {
+        return $this->belongsTo(User::class,"user_id","id");
+    }
 
 
 }

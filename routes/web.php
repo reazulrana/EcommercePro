@@ -79,6 +79,14 @@ Route::post('/rollback_cancel',[HomeController::class,"rollback_cancel"])->name(
 Route::post('/add_comment',[HomeController::class,"add_comment"])->name('add_comment');
 Route::post('/reply_comment',[HomeController::class,"reply_comment"])->name('reply_comment');
 
+Route::get('/show_comment',[AdminController::class,"show_comment"])->name('show_comment');
+Route::get('/shwo_reply_on_comment',[AdminController::class,"shwo_reply_on_comment"])->name('shwo_reply_on_comment');
+Route::get('/delete_comment',[AdminController::class,"delete_comment"])->name('delete_comment');
+Route::Post('/Update_Comment',[AdminController::class,"Update_Comment"])->name('Update_Comment');
+
+
+
+
 
 
 

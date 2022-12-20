@@ -7,6 +7,10 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Comment;
+use App\Models\Reply;
+
+
 use Illuminate\Support\Facades\File;
 use \PDF;
 use Notification;
@@ -266,7 +270,68 @@ function delete_file_if_exist($filepath)
 }
 
 
+function show_comment()
+{
+
+    $comments=Comment::with("users")->get();
+    $comment=Comment::with("replies")->get();
+    // $c=[
+    //     $comments,
+    //     $comment
+    // ];
+
+    // dd($c);
+
+    return view("Admin.show_comments",["comments"=>$comments]);
+}
 
 
+function shwo_reply_on_comment()
+{
+    return "Reply On Comments";
+
+}
+
+function delete_comment(Request $req)
+{
+
+    DB::beginTransaction();
+    try{
+        // dd("ok");
+
+        $comment=Comment::find($req->commentid);
+        $comment->delete();
+        $replies=Reply::where(["comment_id"=>$comment->id])->get();
+
+        foreach($replies as $rep)
+        {
+            $reply=Reply::find($rep->id);
+            $reply->delete();
+        }
+
+        DB::commit();
+    return redirect()->back();
+
+    }
+    catch(\Exception $e)
+    {
+        DB::rollback();
+        throw $e;
+
+    }
+
+}
+
+function Update_Comment(Request $req)
+{
+
+$comment_id=$req->comment_id;
+$comment=Comment::find($comment_id);
+$comment->comment=$req->edit_comment;
+$comment->save();
+
+return redirect()->back()->with(["msg"=>"Comment Update Successfully","type"=>"success"]);
+
+}
 
 }

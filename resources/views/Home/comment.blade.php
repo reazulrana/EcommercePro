@@ -26,15 +26,11 @@
 
 <div class="row comments mb-2">
     <div class="col-md-12">
-        <b>{{$comment->user_name}}</b>
+        <b>{{$comment->user_name}}</b> <small>  <span> {{$comment->date}}  </span>   <span>  {{$comment->time}}</span>  </small>
         <p>{{$comment->comment}}
            <br/>
         <small class="text-muted"><b><a href="javascript::void(0)" data-comment_id="{{$comment->id}}" class="anchor_reply">Reply</a></b></small>
-
-
-
         </p>
-
     </div>
 </div>
 @foreach ($comment->replies as $reply )
@@ -52,8 +48,8 @@
 
 <div class="row reply_div d-none">
     <div class="col-md-4">
-        <form action="{{Route('reply_comment')}}" method="POST" style="margin:0;padding:0;text-align:left;display: inline;">
-@csrf
+        <form action="{{Route('reply_comment')}}" method="POST" class="form-inline">
+        @csrf
         <input type="text" name="commentid" class="form-control commentid" />
         <textarea cols="25" rows="3" class="form-control" name="reply_on_comment"></textarea>
         <button type="submit" class="btn btn-primary btn-sm">Reply</button>

@@ -36,6 +36,24 @@
                 </a>
 
             </li>
+
+            <li>
+
+                <a href="{{Route('show_comment')}}" aria-expanded="false">
+                    <i class="fa fa-first-order"></i><span class="nav-text">Comments</span>
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="{{Route('shwo_reply_on_comment')}}" aria-expanded="false">
+                    <i class="fa fa-first-order"></i><span class="nav-text">Reply On Comment</span>
+                </a>
+
+            </li>
+
             <li class="mega-menu mega-menu-sm">
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Layouts</span>
