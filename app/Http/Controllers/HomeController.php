@@ -25,7 +25,25 @@ public function index()
     $products=Product::paginate(3);
     $comments=Comment::with("replies")->get();
     // dd($comments);
-    // session::flash("index","index");
+    session::flash("index","index");
+
+
+    $ttlproducts=Product::all()->count();
+    $customers=user::where(["usertype"=>"0"])->count();
+    $orders=Order::all()->count();
+    $sold=Order::sum(\DB::raw("quantity*price"));
+    $delivered=Order::where(["delivery_status"=>"delivered"])->count();
+    $processing=Order::where(["delivery_status"=>"processing"])->count();
+
+    $sum_products=[
+                "ttlproducts"=>$ttlproducts,
+                "customers"=>$customers,
+                "orders"=>$orders,
+                "sold"=>$sold,
+                "delivered"=>$delivered,
+                "processing"=>$processing
+    ];
+
 
     if(!empty(Auth::user()))
     {
@@ -39,7 +57,7 @@ public function index()
 
        if($usertype==1)
        {
-        return view("admin.home");
+        return view("admin.home",["sum_products"=>$products]);
        }
        else
        {
@@ -57,13 +75,32 @@ public function index()
        $products=Product::paginate(3);
        $comments=Comment::all();
 
-        // session::flash("index","index");
+        session::flash("index","index");
+
+
+        $ttlproducts=Product::all()->count();
+        $customers=user::where(["usertype"=>"0"])->count();
+        $orders=Order::all()->count();
+        $sold=Order::sum(\DB::raw("quantity*price"));
+        $delivered=Order::where(["delivery_status"=>"delivered"])->count();
+        $processing=Order::where(["delivery_status"=>"processing"])->count();
+
+        $sum_products=[
+                    "ttlproducts"=>$ttlproducts,
+                    "customers"=>$customers,
+                    "orders"=>$orders,
+                    "sold"=>$sold,
+                    "delivered"=>$delivered,
+                    "processing"=>$processing
+        ];
 // $id=Auth::id();
 // $user=user::with("orders");
 // dd($user);
        if($usertype==1)
        {
-        return view("admin.home");
+
+
+        return view("admin.home",["sum_products"=>$products]);
        }
        else
        {
@@ -354,6 +391,42 @@ function add_comment(Request $req)
         return redirect("login");
     }
 
+}
+
+
+function product_search(Request $req)
+{
+    $search_product=$req->search_product;
+    $products;
+    if(isset($search_product))
+    {
+        $products=Product::where("title", "LIKE","%$search_product%")->orWhere("description", "LIKE","%$search_product%")->orWhere('catagory',"LIKE","%$search_product%")
+    ->paginate(3);
+    }
+    else
+    {
+        $products=Product::paginate(3);
+
+    }
+
+    $comments=Comment::with("replies")->get();
+
+
+    return view("home.userpage",["products"=>$products,"comments"=>$comments]);
+
+}
+
+function prod_paginate(Request $req)
+{
+    $rows=$req->ttlrow;
+
+        $products=Product::paginate($rows);
+
+
+    $comments=Comment::with("replies")->get();
+
+
+    return view("home.userpage",["products"=>$products,"comments"=>$comments]);
 }
 
 }

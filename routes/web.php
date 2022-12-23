@@ -85,6 +85,8 @@ Route::Post('/delete_comment',[AdminController::class,"delete_comment"])->name('
 Route::Post('/update_comment',[AdminController::class,"update_comment"])->name('update_comment');
 Route::Post('/update_reply',[AdminController::class,"update_reply"])->name('update_reply');
 Route::Post('/delete_reply',[AdminController::class,"delete_reply"])->name('delete_reply');
+Route::Post('/product_search',[HomeController::class,"product_search"])->name('product_search');
+Route::Post('/prod_paginate',[HomeController::class,"prod_paginate"])->name('prod_paginate');
 
 
 

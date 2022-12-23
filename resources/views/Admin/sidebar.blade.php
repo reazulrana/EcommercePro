@@ -5,7 +5,7 @@
 
             </li>
             <li>
-                <a href="{{Route('show_body')}}" aria-expanded="false">
+                <a href="/redirect" aria-expanded="false">
                     <i class="menu-icon"></i><span class="nav-text">Dashboard</span>
                 </a>
 

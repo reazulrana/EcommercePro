@@ -64,12 +64,19 @@
         ***********************************-->
         <div class="content-body">
         <div class="container-fluid mt-3">
-            {{-- @if(session()->has('index'))
+
+            @if(session()->has('index'))
             @include("admin.body")
+            {{session()->forget("index")}}
 
-            @endif --}}
+            @else
 
-        @yield("content")
+            @yield("content")
+
+            @endif
+
+
+
         {{-- @include("admin.body") --}}
 
         </div>

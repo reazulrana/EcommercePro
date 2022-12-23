@@ -29,6 +29,11 @@ class AdminController extends Controller
 public function view_category()
 {
         $cat =Category::all();
+
+        // if(session()->has("index"))
+        // {
+        //     session()->forget("index");
+        // }
         return view("Admin.category",["category"=>$cat]);
 }
 
@@ -45,6 +50,12 @@ return redirect()->back()->with(["msg"=>$cat->catagory . "Category Saved Success
 
 function view_product()
 {
+
+    // if(session()->has("index"))
+    // {
+    // session()->forget("index");
+
+    // }
         $cat=Category::all();
             return view("admin.product",["category"=>$cat]);
 }
@@ -76,6 +87,11 @@ function show_product()
 {
     $products=Product::all();
     $categories=Category::all();
+
+    // if(session()->has("index"))
+    // {
+    //     session()->forget("index");
+    // }
     return view("Admin.show_product",["products"=>$products,"category"=>$categories]);
 }
 
@@ -120,6 +136,11 @@ function order()
 {
     // dd("ok");
     $orders=Order::all();
+// if(session()->has("index"))
+// {
+//     session()->forget("index");
+// }
+
     return view("admin.order",["orders"=>$orders]);
 }
 
@@ -208,26 +229,28 @@ return view("admin.order",["orders"=>$orders]);
 
 function show_body()
 {
-    $products=Product::all()->count();
+    $ttlproducts=Product::all()->count();
     $customers=user::where(["usertype"=>"0"])->count();
     $orders=Order::all()->count();
     $sold=Order::sum(\DB::raw("quantity*price"));
     $delivered=Order::where(["delivery_status"=>"delivered"])->count();
     $processing=Order::where(["delivery_status"=>"processing"])->count();
 
+    $products=[
+                "ttlproducts"=>$ttlproducts,
+                "customers"=>$customers,
+                "orders"=>$orders,
+                "sold"=>$sold,
+                "delivered"=>$delivered,
+                "processing"=>$processing
+    ];
     // $sold=DB::select("select sum(quantity*price) as price from orders");
 
 
     // dd("products ". $products . " customers ". $customers . " Orders " . $orders . " sold " . $sold);
 
 
-    return view("admin.body",["products"=>$products,
-                "customers"=>$customers,
-                "orders"=>$orders,
-                "sold"=>$sold,
-                "delivered"=>$delivered,
-                "processing"=>$processing
-                ]);
+    return view("admin.body",["products"=>$products ]);
 
 }
 
@@ -275,12 +298,11 @@ function show_comment()
 
     $comments=Comment::with("users")->get();
     $comment=Comment::with("replies")->get();
-    // $c=[
-    //     $comments,
-    //     $comment
-    // ];
 
-    // dd($c);
+    // if(session()->has("index"))
+    // {
+    //     session()->forget("index");
+    // }
 
     return view("Admin.show_comments",["comments"=>$comments]);
 }
@@ -371,5 +393,7 @@ catch(\Exception $e)
 }
 
 }
+
+
 
 }

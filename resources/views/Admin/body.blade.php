@@ -1,12 +1,14 @@
-@extends("admin.home")
-@section("content")
+{{-- @extends("admin.home")
+@section("body-section") --}}
+{{-- @dd($products["ttlproducts"]); --}}
+
                 <div class="row">
                     <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-1">
                             <div class="card-body">
                                 <h3 class="card-title text-white">Total Product</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">{{$products}}</h2>
+                                    <h2 class="text-white">{{$sum_products['ttlproducts']}}</h2>
                                     {{-- <p class="text-white mb-0">Jan - March 2019</p> --}}
                                 </div>
                                 {{-- <span class="float-right display-5 opacity-5"><i class="fa fa-product-hunt"></i></span> --}}
@@ -20,7 +22,7 @@
                             <div class="card-body">
                                 <h3 class="card-title text-white">Total Order</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">{{$orders}}</h2>
+                                    <h2 class="text-white">{{$sum_products['orders']}}</h2>
                                     {{-- <p class="text-white mb-0">Jan - March 2019</p> --}}
                                 </div>
                                 {{-- <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span> --}}
@@ -32,7 +34,7 @@
                             <div class="card-body">
                                 <h3 class="card-title text-white">Total Customers</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">{{$customers}}</h2>
+                                    <h2 class="text-white">{{$sum_products['customers']}}</h2>
                                     {{-- <p class="text-white mb-0">Jan - March 2019</p> --}}
                                 </div>
                                 {{-- <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span> --}}
@@ -44,7 +46,7 @@
                             <div class="card-body">
                                 <h3 class="card-title text-white">Total Sold</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">{{$sold}} -/</h2>
+                                    <h2 class="text-white">{{$sum_products['sold']}} -/</h2>
                                     {{-- <p class="text-white mb-0">Jan - March 2019</p> --}}
                                 </div>
                                 {{-- <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span> --}}
@@ -60,7 +62,7 @@
                             <div class="card-body">
                                 <h3 class="card-title text-white">Order Delivered</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">{{$delivered}}</h2>
+                                    <h2 class="text-white">{{$sum_products['delivered']}}</h2>
                                     {{-- <p class="text-white mb-0">Jan - March 2019</p> --}}
                                 </div>
                                 {{-- <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span> --}}
@@ -73,7 +75,7 @@
                             <div class="card-body">
                                 <h3 class="card-title text-white">Order Pricessing</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">{{$processing}}</h2>
+                                    <h2 class="text-white">{{$sum_products['processing']}}</h2>
                                     {{-- <p class="text-white mb-0">Jan - March 2019</p> --}}
                                 </div>
                                 {{-- <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span> --}}
@@ -82,4 +84,4 @@
                     </div>
                 </div>
 
-@endsection
+{{-- @endsection --}}
