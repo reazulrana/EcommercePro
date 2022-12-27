@@ -60,7 +60,7 @@
                         <td>{{$order->price}}</td>
                         <td>{{$order->payment_status}}</td>
                         <td>{{$order->delivery_status}}</td>
-                        <td><img height="150" width="100" src="/Images/{{$order->image}}" /></td>
+                        <td><img height="150" width="100" src="{{customclass::url_product_photo($order->image)}}" /></td>
                         <td>
                             <form method="Post" action="{{Route('cancel_order')}}">
                             @csrf

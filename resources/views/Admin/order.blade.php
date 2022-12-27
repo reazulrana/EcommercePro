@@ -75,26 +75,25 @@
   <span class="badge badge-success py-2">{{$order->delivery_status}}</span>
     @else
     {{$order->delivery_status}}
-
     @endif
 
 </td>
-<td><img height="150" width="100" src="/images/{{$order->image}}"/></td>
+<td><img height="150" width="100" src="{{customclass::url_product_photo($order->image)}}"/></td>
 <td>
     @if($order->delivery_status!="delivered")
     <form action="delivered" method="Post">
         @csrf
         <input type="hidden" value="{{$order->id}}" name="orderid"/>
-        <button type="submit" class="btn btn-success text-black-50 btn-block">Delivered</button>
+        <button type="submit" class="btn btn-success bg-success btn-block"> <i class="mdi mdi-cart"></i> <span>Delivered</span></button>
     </form>
     @else
-    <h4 class="h4">Delivered</h4>
+    <h4 class="h4 bg-danger text-white text-center py-1">Delivered</h4>
     @endif
 
 
-    <a href="{{Route('print_pdf',$order->id)}}" class="btn btn-primary btn-block">Print PDF</a>
+    <a href="{{Route('print_pdf',$order->id)}}" class="btn btn-primary btn-block"><i class="mdi mdi-file-document"></i> <span>Print PDF</span></a>
 
-    <a href="{{Route('send_email',$order->id)}}" class="btn btn-info btn-block">Send Email</a>
+    <a href="{{Route('send_email',$order->id)}}" class="btn btn-info btn-block"><i class="mdi mdi-email"></i> <span>Send Email</span></a>
 
 </td>
 

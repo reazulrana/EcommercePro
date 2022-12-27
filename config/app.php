@@ -214,6 +214,8 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'custom'=> \App\lib\mycategory::class,
         'PDF'=> Barryvdh\DomPDF\Facade::class,
+        'customclass'=> App\Lib\customclass::class,
+
     ])->toArray(),
 
 ];

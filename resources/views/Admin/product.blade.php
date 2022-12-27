@@ -33,7 +33,7 @@
                 <x-input labeltitle="product image here"  type="file" placeholder="" name="image" labelclass="control-label" inputclass="form-control"/>
                 <div class="form-group">
                     <label class="control-label text-white">sdad</label>
-                    <button type="submit" class="btn btn-success btn-block">Add product</button>
+                    <button type="submit" class="btn btn-success bg-success col-md-4">Add product</button>
                 </div>
                 {{-- <x-input  labeltitle="" placeholder="" labelclass=""  type="submit" name="btnadd"   inputclass="btn btn-success btn-block" value="Add Product"/> --}}
 

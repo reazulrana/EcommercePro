@@ -1,10 +1,10 @@
 @if($errors->any())
-<div class="alert alert-danger alert-dismissible fade show">
-<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-    </button>
-@foreach($errors->all as $error)
-    {{$error}}
-@endforeach
-</div>
+    <div class="alert alert-danger">
+        <ul class="list-none">
+            <button type="button btn-sm" class="close" data-dismiss="alert">×</button>
+            @foreach($errors->all() as $error)
+                <li> {{$error}}</li>
+            @endforeach
+        </ul>
+    </div>
 @endif
-

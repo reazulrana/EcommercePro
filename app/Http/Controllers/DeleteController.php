@@ -10,8 +10,6 @@ use App\Models\Cart;
 use Illuminate\Support\Facades\File;
 class DeleteController extends Controller
 {
-    //
-
     public function delete_data(Request $req)
     {
          $this->del_rec($req);
@@ -31,10 +29,7 @@ class DeleteController extends Controller
         }
         elseif($type=="cart")
         {
-
            $this->delete_cart($req->id);
-
-
         }
 
     }

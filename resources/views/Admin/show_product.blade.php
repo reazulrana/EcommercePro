@@ -1,5 +1,7 @@
 @extends("admin.home")
 
+
+
 @section("content")
 
 <div class="row">
@@ -38,9 +40,9 @@
                                 <td>{{$product->catagory}}</td>
                                 <td>{{$product->price}}</td>
                                 <td>{{$product->discount_price}}</td>
-                                <td><img src="/Images/{{$product->image}}"/></td>
+                                <td><img height="100" width="100" src="{{customclass::url_product_photo($product->image)}}"/></td>
                                 <td>
-                                    <a href="#" data-toggle="modal" data-target="#productupdatemodal"  class="btn btn-primary btn_edit_product"
+                                    <a href="#" data-toggle="modal" data-target="#productupdatemodal"  class="btn btn-primary btn-sm btn-block btn_edit_product"
                                     data-id="{{$product->id}}"
                                     data-title="{{$product->title}}"
                                     data-description="{{$product->description}}"
@@ -50,7 +52,7 @@
                                     data-discount_price="{{$product->discount_price}}"
                                     data-image="{{$product->image}}"
                                     >Edit</a>
-                                    <a href="#" data-toggle="modal" data-target="#deletemodal" class="btn btn-danger text-white btn_delete_product"
+                                    <a href="#" data-toggle="modal" data-target="#deletemodal" class="btn btn-danger  btn-sm btn-block text-white btn_delete_product"
                                     data-id="{{$product->id}}"
                                     data-title="{{$product->title}}"
                                     data-description="{{$product->description}}"

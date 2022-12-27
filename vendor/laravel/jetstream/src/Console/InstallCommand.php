@@ -152,6 +152,7 @@ class InstallCommand extends Command
                 '@tailwindcss/forms' => '^0.5.2',
                 '@tailwindcss/typography' => '^0.5.0',
                 'alpinejs' => '^3.0.6',
+                '@alpinejs/focus' => '^3.10.5',
                 'autoprefixer' => '^10.4.7',
                 'postcss' => '^8.4.14',
                 'tailwindcss' => '^3.1.0',
@@ -241,7 +242,13 @@ class InstallCommand extends Command
             $this->installLivewireTeamStack();
         }
 
-        $this->runCommands(['npm install', 'npm run build']);
+        if (file_exists(base_path('pnpm-lock.yaml'))) {
+            $this->runCommands(['pnpm install', 'pnpm run build']);
+        } elseif (file_exists(base_path('yarn.lock'))) {
+            $this->runCommands(['yarn install', 'yarn run build']);
+        } else {
+            $this->runCommands(['npm install', 'npm run build']);
+        }
 
         $this->line('');
         $this->components->info('Livewire scaffolding installed successfully.');
@@ -314,7 +321,7 @@ EOF;
                 '@inertiajs/progress' => '^0.2.7',
                 '@tailwindcss/forms' => '^0.5.2',
                 '@tailwindcss/typography' => '^0.5.2',
-                '@vitejs/plugin-vue' => '^3.0.0',
+                '@vitejs/plugin-vue' => '^4.0.0',
                 'autoprefixer' => '^10.4.7',
                 'postcss' => '^8.4.14',
                 'tailwindcss' => '^3.1.0',
@@ -431,7 +438,13 @@ EOF;
             $this->installInertiaSsrStack();
         }
 
-        $this->runCommands(['npm install', 'npm run build']);
+        if (file_exists(base_path('pnpm-lock.yaml'))) {
+            $this->runCommands(['pnpm install', 'pnpm run build']);
+        } elseif (file_exists(base_path('yarn.lock'))) {
+            $this->runCommands(['yarn install', 'yarn run build']);
+        } else {
+            $this->runCommands(['npm install', 'npm run build']);
+        }
 
         $this->line('');
         $this->components->info('Inertia scaffolding installed successfully.');
@@ -694,6 +707,7 @@ EOF;
         tap(new Filesystem, function ($files) {
             $files->deleteDirectory(base_path('node_modules'));
 
+            $files->delete(base_path('pnpm-lock.yaml'));
             $files->delete(base_path('yarn.lock'));
             $files->delete(base_path('package-lock.json'));
         });

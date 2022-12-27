@@ -62,7 +62,7 @@
                 <td>{{$cart->product_title}}</td>
                 <td>{{$cart->quantity}}</td>
                 <td>{{$cart->price}}</td>
-                <td><img height="150" width="100" src="/images/{{$cart->image}}" alt=""></td>
+                <td><img height="150" width="100" src="{{customclass::url_product_photo($cart->image)}}" alt=""></td>
                 <td>
                     {{-- delete_cart use for click event  --}}
                     <a href="#" class="delete_cart" data-toggle="modal" data-target="#delete_home_modal"

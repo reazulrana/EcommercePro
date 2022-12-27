@@ -9,22 +9,25 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Comment;
 use App\Models\Reply;
-
-
 use Illuminate\Support\Facades\File;
 use \PDF;
 use Notification;
 use App\Notifications\SendEmailNotification;
 use Illuminate\Support\Facades\DB;
-
-
+use App\Models\Testimonial;
+use App\Lib\customclass;
+use App\Lib\crud;
 class AdminController extends Controller
 {
 
-
-
-
-    //
+public $customClass;
+public $crud;
+//
+public function __construct(customclass $cl,crud $c)
+{
+    $this->customClass=$cl;
+    $this->crud=$c;
+}
 
 public function view_category()
 {
@@ -66,14 +69,13 @@ function add_product(Request $req)
 $req->validate([
 'image'=> 'mimes:jpeg,jpg,png,gif'
 ]);
-$image_path="Images/";
+$image_path=$this->customClass->upload_path_product_photo();  //"Images/";
 
 $image=$req->image;
-
     $product=new Product();
     $product->title=$req->title;
     $product->description=$req->description;
-    $product->image=$this->custom_upload_single_image_file($image,$image_path);;
+    $product->image=$this->customClass->custom_upload_single_image_file($image,$image_path);;
     $product->catagory=$req->category;
     $product->quantity=$req->quantity;
     $product->price=$req->price;
@@ -101,15 +103,15 @@ function update_product(Request $req)
     $product=Product::find($req->id);
     $image=$req->image;
     $filename="";
-    $url="Images/";
+    $url=$this->customClass->upload_path_product_photo(); //"Images/";
     //if image change with old image which is saved in database
     if(isset($image))
     {
         //delete old image from Images folder in to server
-        $this->delete_file_if_exist($url. $req->old_image_name);
+        $this->customClass->delete_file_if_exist($url. $req->old_image_name);
 
         //upload change image into Images folder and get uploaded filename to save into database
-        $filename=$this->custom_upload_single_image_file($image, $url);
+        $filename=$this->customClass->custom_upload_single_image_file($image, $url);
     }
     else
     {
@@ -227,70 +229,34 @@ return view("admin.order",["orders"=>$orders]);
 
 }
 
-function show_body()
-{
-    $ttlproducts=Product::all()->count();
-    $customers=user::where(["usertype"=>"0"])->count();
-    $orders=Order::all()->count();
-    $sold=Order::sum(\DB::raw("quantity*price"));
-    $delivered=Order::where(["delivery_status"=>"delivered"])->count();
-    $processing=Order::where(["delivery_status"=>"processing"])->count();
-
-    $products=[
-                "ttlproducts"=>$ttlproducts,
-                "customers"=>$customers,
-                "orders"=>$orders,
-                "sold"=>$sold,
-                "delivered"=>$delivered,
-                "processing"=>$processing
-    ];
-    // $sold=DB::select("select sum(quantity*price) as price from orders");
-
-
-    // dd("products ". $products . " customers ". $customers . " Orders " . $orders . " sold " . $sold);
-
-
-    return view("admin.body",["products"=>$products ]);
-
-}
-
-
-//Custom Function
-
-//for single document file uploads like *.docs; *.pdf; *.xls; *.xlsx  and $files=array and $savepath =Directory You want upload your files
-function custom_upload_single_image_file($file,$savepath)
-{
-
-
-//Upload file
-$tfile="";
-// if(isset($file))
+// function show_body()
 // {
-// //check is file in valid format
-// $c=is_file_image($file);
-// if(!isset($c))
-// {
-// return null;
+//     $ttlproducts=Product::all()->count();
+//     $customers=user::where(["usertype"=>"0"])->count();
+//     $orders=Order::all()->count();
+//     $sold=Order::sum(\DB::raw("quantity*price"));
+//     $delivered=Order::where(["delivery_status"=>"delivered"])->count();
+//     $processing=Order::where(["delivery_status"=>"processing"])->count();
+
+//     $products=[
+//                 "ttlproducts"=>$ttlproducts,
+//                 "customers"=>$customers,
+//                 "orders"=>$orders,
+//                 "sold"=>$sold,
+//                 "delivered"=>$delivered,
+//                 "processing"=>$processing
+//     ];
+//     // $sold=DB::select("select sum(quantity*price) as price from orders");
+
+
+//     // dd("products ". $products . " customers ". $customers . " Orders " . $orders . " sold " . $sold);
+
+
+//     return view("admin.body",["products"=>$products ]);
+
 // }
 
 
-$originalFilename=$file->getClientOriginalName();
-$originalFilename=substr($originalFilename,0, strlen($originalFilename)-4);
-$originalFilename=$originalFilename . "_" . round(microtime(true)*1000,0) . "." .$file->extension();
-$file->move($savepath,$originalFilename);
-$tfile=$originalFilename;
-// }
-    return $tfile;
-}
-
-function delete_file_if_exist($filepath)
-{
-    if(file_exists($filepath))
-    {
-        File::delete($filepath);
-    }
-
-}
 
 
 function show_comment()
@@ -392,8 +358,100 @@ catch(\Exception $e)
     throw $e;
 }
 
+
+
+
 }
 
+function show_testimonial()
+{
+
+    // if(session()->has("index"))
+    // {
+    //    session()->forget("index");
+    // }
+$testimonials=Testimonial::orderBy("id","DESC")->get();
+
+    return view("admin.show_testimonial",["testimonials"=>$testimonials]);
+}
+
+function add_testimonial(Request $req)
+{
+
+    $req->validate([
+        "carousel_image"=>'required|mimes:jpeg,png,bmp,tiff |max:4096',
+        "carousel_header_h5"=>'required',
+        "carousel_header_h6"=>'required',
+        "description"=>'required'
+    ]);
+
+$image_path=$this->customClass->upload_path_testimonial_photo();
+$image_file_name=$this->customClass->custom_upload_single_image_file($req->carousel_image,$image_path);
+
+$data=new Testimonial;
+$data->title=$req->carousel_header_h5;
+$data->sub_title=$req->carousel_header_h6;
+$data->description=$req->description;
+$data->image=$image_file_name;
+$data->save();
+return redirect()->back()->with(["msg"=>"Data Insert Successfully","type"=>"success"]);
+}
+
+
+function update_Testimonial(Request $req)
+{
+
+    $req->validate([
+        "id"=>"required",
+        "title"=>"nullable",
+        "sub_title"=>"nullable",
+        "description"=>"nullable",
+        "change_image_file"=>'nullable|mimes:jpeg,png,bmp,tiff' //|max:4096
+    ],
+    $message=[
+        'required'=>'the attribute field is required.',
+        'mimes'=>'Only jpeg, png, bmp,tiff are allowed.'
+
+    ]
+   );
+
+   $image_path=$this->customClass->upload_path_testimonial_photo();
+
+    $image = $req->change_image_file;
+$img_file_name="";
+    if(isset($image))
+    {
+    $this->customClass->delete_file_if_exist($image_path. $req->pre_image);
+    $img_file_name=$this->customClass->custom_upload_single_image_file($image,$image_path);
+
+    }
+    else
+    {
+        $img_file_name=$req->pre_image;
+    }
+
+
+    $testimonial=Testimonial::find($req->id);
+
+$this->crud->save_testimonial($testimonial,$req,$img_file_name);
+
+
+
+    return redirect()->back()->with(["msg"=>"Data Update Successfully","type"=>"success"]);
+}
+
+function delete_testimonial(Request $req)
+{
+
+    $delete_id=$req->delete_id;
+
+    $model=Testimonial::find($delete_id);
+
+    $model->delete();
+
+
+    return redirect()->back()->with(["msg"=>"data deleted successfully","type"=>"success"]);
+}
 
 
 }

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DeleteController;
+use App\Http\Controllers\NotificationController;
+
 
 
 /*
@@ -87,6 +89,19 @@ Route::Post('/update_reply',[AdminController::class,"update_reply"])->name('upda
 Route::Post('/delete_reply',[AdminController::class,"delete_reply"])->name('delete_reply');
 Route::Post('/product_search',[HomeController::class,"product_search"])->name('product_search');
 Route::Post('/prod_paginate',[HomeController::class,"prod_paginate"])->name('prod_paginate');
+Route::get('/product_view',[HomeController::class,"product_view"])->name('product_view');
+Route::Post('/product_search_peoduct_view',[HomeController::class,"product_search_peoduct_view"])->name('product_search_peoduct_view');
+Route::Post('/prod_paginate_product_view',[HomeController::class,"prod_paginate_product_view"])->name('prod_paginate_product_view');
+Route::get('/blog_view',[HomeController::class,"blog_view"])->name('blog_view');
+Route::get('/show_about',[HomeController::class,"show_about"])->name('show_about');
+Route::get('/testimonial',[HomeController::class,"testimonial"])->name('testimonial');
+Route::get('/sendSmsNotificaition',[NotificationController::class,"sendSmsNotificaition"])->name('sendSmsNotificaition');
+Route::get('/show_testimonial',[AdminController::class,"show_testimonial"])->name('show_testimonial');
+Route::Post('/add_testimonial',[AdminController::class,"add_testimonial"])->name('add_testimonial');
+Route::Post('/update_Testimonial',[AdminController::class,"update_Testimonial"])->name('update_Testimonial');
+Route::Post('/delete_testimonial',[AdminController::class,"delete_testimonial"])->name('delete_testimonial');
+
+
 
 
 

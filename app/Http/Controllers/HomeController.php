@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Comment;
 use App\Models\Reply;
+use App\Models\Testimonial;
 
 
 use Session;
@@ -17,11 +18,12 @@ use Stripe;
 use Carbon\Carbon;
 class HomeController extends Controller
 {
-    //
 
 
 public function index()
 {
+
+
     $products=Product::paginate(3);
     $comments=Comment::with("replies")->get();
     // dd($comments);
@@ -57,7 +59,7 @@ public function index()
 
        if($usertype==1)
        {
-        return view("admin.home",["sum_products"=>$products]);
+        return view("admin.home",["sum_products"=>$sum_products]);
        }
        else
        {
@@ -71,12 +73,13 @@ public function index()
 
     public function redirect()
     {
+
+
        $usertype=Auth::user()->usertype;
        $products=Product::paginate(3);
        $comments=Comment::all();
 
         session::flash("index","index");
-
 
         $ttlproducts=Product::all()->count();
         $customers=user::where(["usertype"=>"0"])->count();
@@ -86,21 +89,18 @@ public function index()
         $processing=Order::where(["delivery_status"=>"processing"])->count();
 
         $sum_products=[
-                    "ttlproducts"=>$ttlproducts,
-                    "customers"=>$customers,
-                    "orders"=>$orders,
-                    "sold"=>$sold,
-                    "delivered"=>$delivered,
-                    "processing"=>$processing
+            "ttlproducts"=>$ttlproducts,
+            "customers"=>$customers,
+            "orders"=>$orders,
+            "sold"=>$sold,
+            "delivered"=>$delivered,
+            "processing"=>$processing
         ];
-// $id=Auth::id();
-// $user=user::with("orders");
-// dd($user);
+
+
        if($usertype==1)
        {
-
-
-        return view("admin.home",["sum_products"=>$products]);
+        return view("admin.home",["sum_products"=>$sum_products]);
        }
        else
        {
@@ -311,7 +311,7 @@ function cancel_order(Request $req)
 
     $id=$req->id;
     $order=Order::find($id);
-    $msg="Order Cancel";
+    $msg="cancel order";
     if(isset($req->cancelorder))
     {
         $order->delivery_status="cancel order";
@@ -419,14 +419,65 @@ function product_search(Request $req)
 function prod_paginate(Request $req)
 {
     $rows=$req->ttlrow;
+    $products=Product::paginate($rows);
+    $comments=Comment::with("replies")->get();
+    return view("home.userpage",["products"=>$products,"comments"=>$comments]);
+}
 
-        $products=Product::paginate($rows);
 
+function product_view()
+{
+    $products=Product::paginate(5);
+    $comments=Comment::with("replies")->get();
+    return view("home.product_view",["products"=>$products,"comments"=>$comments]);
+}
+
+function product_search_peoduct_view(Request $req)
+{
+
+    $search_product=$req->search_product;
+    $products;
+    if(isset($search_product))
+    {
+        $products=Product::where("title", "LIKE","%$search_product%")->orWhere("description", "LIKE","%$search_product%")->orWhere('catagory',"LIKE","%$search_product%")
+    ->paginate(3);
+    }
+    else
+    {
+        $products=Product::paginate(3);
+
+    }
 
     $comments=Comment::with("replies")->get();
 
 
-    return view("home.userpage",["products"=>$products,"comments"=>$comments]);
+    return view("home.product_view",["products"=>$products,"comments"=>$comments]);
+
+}
+
+function prod_paginate_product_view(Request $req)
+{
+
+    $rows=$req->ttlrow;
+    $products=Product::paginate($rows);
+    $comments=Comment::with("replies")->get();
+    return view("home.product_view",["products"=>$products,"comments"=>$comments]);
+}
+function blog_view()
+{
+    return view("home.blog_view");
+}
+
+function show_about()
+{
+
+    return view("home.about");
+}
+
+function testimonial()
+{
+$testimonials=Testimonial::orderBy("id","DESC")->get();
+    return view("home.testimonial",["testimonials"=>$testimonials]);
 }
 
 }

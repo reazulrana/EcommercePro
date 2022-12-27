@@ -31,10 +31,10 @@
                 @csrf
                 <div class="row">
                 <div class="form-group">
-            <a href="javascript::void(0)" data-toggle="modal" data-target="#edit_comment_modal" data-id="{{$comment->id}}" data-comment="{{$comment->comment}}" class="btn btn-info text-white btn_edit_comment col">Edit</a>
+            <a href="javascript::void(0)" data-toggle="modal" data-target="#edit_comment_modal" data-id="{{$comment->id}}" data-comment="{{$comment->comment}}" class="btn btn-info text-white btn_edit_comment col" title="Edit Comment"><i class="mdi mdi-pencil"></i> </a>
 
             <input type="hidden" value="{{$comment->id}}" name="commentid"/>
-            <button type="submit" class="btn btn-danger text-white bg-danger col" onclick="return confirm('Do You Want To Delete Comments Note: Reply will be deleted from replies table according to comment_id')">Delete</button>
+            <button type="submit" class="btn btn-danger text-white bg-danger col" onclick="return confirm('Do You Want To Delete Comments Note: Reply will be deleted from replies table according to comment_id')" title="Delete Comment"><i class="mdi mdi-delete"></i> </button>
             </div>
         </div>
     </form>
